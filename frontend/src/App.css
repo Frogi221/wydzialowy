@@ -1,0 +1,27 @@
+/* App.css */
+
+.background-image {
+  background-image: url('motocycle.jpg'); /* Ścieżka do pliku z tłem motocykla */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  height: 100vh; /* Ustaw wysokość na 100% widoku */
+  overflow-y: hidden; /* Ukryj pionowy pasek przewijania */
+}
+
+/* Kolorystyka menu */
+.navbar {
+  background-color: rgba(0, 0, 0, 0.7); /* Kolor tła menu z przezroczystością */
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff; /* Kolor tekstu menu */
+  font-size: x-large;
+}
+
+.navbar-dark .navbar-toggler-icon {
+  background-color: #fff; /* Kolor ikony przycisku "hamburger" */
+  font-size:xx-large;
+}
