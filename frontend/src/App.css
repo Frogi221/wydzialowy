@@ -25,3 +25,15 @@
   background-color: #fff; /* Kolor ikony przycisku "hamburger" */
   font-size:xx-large;
 }
+
+.login-text {
+  color: #fff;
+}
+
+.login-pop{
+  background-color: rgba(0, 0, 0, 0.7); /* Kolor tła menu z przezroczystością */
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  overflow-y: hidden; /* Ukryj pionowy pasek przewijania */
+}
