@@ -1,5 +1,73 @@
 /* App.css */
 
+/* AdminPanel.css */
+
+.admin-panel {
+  background-image: url('motocycle.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  height: 100vh;
+  overflow-y: hidden;
+  display: flex; /* Use display: flex to center vertically */
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */ /* Set the width to 50% of the parent container or viewport width */
+}
+
+
+.panel-title {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  font-size: 24px;
+  text-align: center;
+  align-content: center;
+}
+
+.add-service-container {
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  margin: 20px;
+  text-align: center;
+}
+
+.service-list {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  margin: 20px;
+  text-align: center;
+}
+
+.service-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.service-list li {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service-list li button {
+  margin-left: 10px;
+}
+
+.cost-container {
+  background-color: #f0f0f0; /* Dodaj kolor tła, np. jasny szary */
+  padding: 20px; /* Dodaj wewnętrzny odstęp */
+  border-radius: 20px; /* Dodaj zaokrąglone rogi */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 100); /* Dodaj efekt cienia */
+}
 .background-image {
   background-image: url('motocycle.jpg'); /* Ścieżka do pliku z tłem motocykla */
   background-size: cover;

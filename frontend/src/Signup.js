@@ -22,7 +22,7 @@ function Signup(){
             axios.post('http://localhost:8081/signup', values)
             .then(response => {
                 console.log(response.data)
-                navigate('/')
+                navigate('/Login')
             })
             .catch(err => console.log(err));
         }
@@ -53,7 +53,7 @@ function Signup(){
                 </div>
                 <button type='submit' className='btn btn-success w-100'>Sign up</button>
                 <p>You are agree to a our terms and policies</p>
-                <Link to="/" className='btn btn-default border w-100 bg-light rounded-0'>Log in</Link>
+                <Link to="/Login" className='btn btn-default border w-100 bg-light rounded-0'>Log in</Link>
             </form>
         </div>
     </div>

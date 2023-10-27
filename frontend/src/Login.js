@@ -28,7 +28,7 @@ function Login() {
                   if (response.data === "Success") {
                     console.log(response.data);
                     console.log("Przed przekierowaniem");
-                    navigate('/home');
+                    navigate('/Glowna');
                     console.log("Po przekierowaniu");
                   } else if (response.data === "Failed") {
                     alert("No record existed");
