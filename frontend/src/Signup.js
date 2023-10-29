@@ -30,30 +30,30 @@ function Signup(){
     return (
         <div className='background-image d-flex justify-content-center align-items-center bg-primary vh-100 '>
             <div className='login-pop p-3 rounded w-30 login-text'>
-            <h2>Sing-up</h2>
+            <h2>Zarejestruj się</h2>
             <form action="" onSubmit={handleSubmit}>
                 <div className='mb-3'>
-                    <label htmlFor="Name"><strong>Name</strong></label>
-                    <input type="text" placeholder='Enter Name' name='name'
+                    <label htmlFor="Name"><strong>Pseudonim</strong></label>
+                    <input type="text" placeholder='Wprowadź pseudonim' name='name'
                     onChange={handleInput} className='form-control rounded-0'/>
                     {errors.email && <span className='text-danger'> {errors.name}</span>}
 
                 </div>
                 <div className='mb-3'>
                     <label htmlFor="email"><strong>Email</strong></label>
-                    <input type="email" placeholder='Enter Email' name='email' 
+                    <input type="email" placeholder='Wprowadź Email' name='email' 
                     onChange={handleInput} className='form-control rounded-0'/>
                     {errors.email && <span className='text-danger'> {errors.email}</span>}
                 </div>
                 <div className='mb-3'>
-                <label htmlFor="password"><strong>Password</strong></label>
-                        <input type="password" placeholder='Enter Password' name='password'
+                <label htmlFor="password"><strong>Hasło</strong></label>
+                        <input type="password" placeholder='Wprowadź hasło' name='password'
                         onChange={handleInput} className='form-control rounded-0'/>
                         {errors.password && <span className='text-danger'> {errors.password}</span>}
                 </div>
-                <button type='submit' className='btn btn-success w-100'>Sign up</button>
-                <p>You are agree to a our terms and policies</p>
-                <Link to="/Login" className='btn btn-default border w-100 bg-light rounded-0'>Log in</Link>
+                <button type='submit' className='btn btn-success w-100'>Zarejestruj się</button>
+                <p>Zgadzasz się z naszymi warunkami i zasadami strony.</p>
+                <Link to="/Login" className='btn btn-default border w-100 bg-light rounded-0'>Masz konto? Zaloguj się tutaj.</Link>
             </form>
         </div>
     </div>

@@ -44,24 +44,24 @@ function Login() {
     return (
         <div className='background-image d-flex justify-content-center align-items-center bg-primary vh-100 '>
             <div className='login-pop p-3 rounded w-30 login-text'>
-                <h2>Sing-In</h2>
+                <h2>Zaloguj się</h2>
                 <form action="" onSubmit={handleSubmit}>
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
-                        <input type="email" placeholder='Enter Email' name='email'
+                        <input type="email" placeholder='Wprowadź e-mail' name='email'
                         onChange={handleInput} className='form-control rounded-0'/>
                         {errors.email && <span className='text-danger'> {errors.email}</span>}
                     </div>
                     <div className='mb-3'>
-                        <label htmlFor="password"><strong>Password</strong></label>
-                        <input type="password" placeholder='Enter Password' name='password'
+                        <label htmlFor="password"><strong>Hasło</strong></label>
+                        <input type="password" placeholder='Wprowadź hasło' name='password'
                         onChange={handleInput} className='form-control rounded-0'/>
                         {errors.password && <span className='text-danger'> {errors.password}</span>}
 
                     </div>
-                    <button  type='submit' className='btn btn-success w-100'>Log in</button>
-                    <p>You are agree to a our terms and policies</p>
-                    <Link to="/signup" className='btn btn-default border w-100 bg-light rounded-0'>Create Account</Link>
+                    <button  type='submit' className='btn btn-success w-100'>Zaloguj się</button>
+                    <p>Zgadzasz się z naszymi warunkami i zasadami strony</p>
+                    <Link to="/signup" className='btn btn-default border w-100 bg-light rounded-0'>Utwórz konto</Link>
                 </form>
             </div>
         </div>
