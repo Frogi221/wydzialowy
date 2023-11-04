@@ -1,20 +1,21 @@
-// Import React and necessary dependencies
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navi from "./Navi";
-import "./App.css"; // Separate CSS file for AdminPanel
+import "./App.css"; 
 
-// Create the AdminPanel component
+
 const AdminPanel = () => {
   const [uslugi, setUslugi] = useState([]);
   const [nazwaUslugi, setNazwaUslugi] = useState("");
   const [cenaUslugi, setCenaUslugi] = useState("");
   const [nowaNazwaUslugi, setNowaNazwaUslugi] = useState("");
   const [nowaCenaUslugi, setNowaCenaUslugi] = useState("");
+  const [uzytkownicy, setUzytkownicy] = useState([]);
 
-  // Fetch uslugi on component mount
+
   useEffect(() => {
     fetchUslugi();
+    fetchUzytkownicy();
   }, []);
 
   const fetchUslugi = async () => {
@@ -23,6 +24,15 @@ const AdminPanel = () => {
       setUslugi(response.data);
     } catch (error) {
       console.error("Błąd podczas pobierania usług", error);
+    }
+  };
+
+  const fetchUzytkownicy = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/uzytkownicy")
+      setUzytkownicy(response.data);
+    } catch (error) {
+      console.server("Bład podczas pobierania użytkowników");
     }
   };
 
@@ -58,6 +68,15 @@ const AdminPanel = () => {
       console.error("Błąd podczas usuwania usługi", error);
     }
   };
+
+  const handleUsunUzytkownika = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8081/uzytkownicy/${id}`);
+      fetchUzytkownicy();
+    } catch(error) {
+      console.error("Blad podczas usuwania uzytkownika")
+    }
+  }
 
   return (
     <div className="background-image justify-content-center align-items-center">
@@ -98,6 +117,17 @@ const AdminPanel = () => {
           ))}
         </ul>
       </div>
+      <div className="service-list">
+          <h3>Lista Użytkowników</h3>
+          <ul>
+            {uzytkownicy.map((uzytkownik) => (
+              <li key={uzytkownik.id}>
+                {uzytkownik.name} - {uzytkownik.email}
+                <button onClick={() => handleUsunUzytkownika(uzytkownik.id)}>Usuń</button>
+              </li>
+            ))}
+          </ul>
+        </div>
     </div>
     </div>
   );

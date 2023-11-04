@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
-import Navi from './Navi'; // Importuj komponent nawigacji
+import Navi from './Navi'; 
 
 function Cennik() {
   const [uslugi, setUslugi] = useState([]);
 
   useEffect(() => {
-    // Pobierz usługi z serwera
     axios.get("http://localhost:8081/uslugi").then((response) => {
       setUslugi(response.data);
     });
@@ -15,7 +14,7 @@ function Cennik() {
 
   return (
     <div className="background-image justify-content-center align-items-center">
-      <Navi /> {/* Dodaj komponent nawigacji */}
+      <Navi /> {}
       <div className="container mt-4 cost-container">
         <h1>Cennik</h1>
         <p>Tutaj znajdziesz nasz cennik usług:</p>

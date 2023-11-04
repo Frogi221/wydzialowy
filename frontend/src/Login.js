@@ -11,6 +11,7 @@ function Login() {
         })
         const navigate = useNavigate();
         const [errors, setErrors] = useState({})
+        axios.defaults.withCredentials = true;
         const [backendError,setBackendError] = useState({})
         const handleInput = (event) => {
             setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
