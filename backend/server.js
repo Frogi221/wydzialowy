@@ -179,11 +179,38 @@ app.get('/uslugi', (req, res) => {
     const sql = 'SELECT * FROM ogloszenia';
     db.query(sql, (err, result) => {
       if (err) {
+        console.error('Błąd podczas pobierania ogłoszeń', err);
+        res.status(500).json('Błąd');
+        return;
+      }
+      console.log('Pobrano ogłoszenia z bazy danych');
+      res.status(200).json(result);
+    });
+  });
+
+  app.post('/ogloszenia', (req, res) => {
+    const sql = 'INSERT INTO ogloszenia (tytul, opis) VALUES (?, ?)';
+    db.query(sql, [req.body.nazwaOgloszenia, req.body.trescOgloszenia], (err, result) => {
+      if (err) {
         console.error('Błąd podczas pobierania usług', err);
         res.status(500).json('Błąd');
         return;
       }
-      console.log('Pobrano usługi z bazy danych');
+      console.log('Pobrano ogłoszenia z bazy danych');
+      res.status(200).json(result);
+    });
+  });
+
+  app.delete('/ogloszenia/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = 'DELETE FROM ogloszenia WHERE id = ?';
+    db.query(sql, id, (err, result) => {
+      if (err) {
+        console.error('Błąd podczas usuwania ogłoszenia', err);
+        res.status(500).json('Błąd');
+        return;
+      }
+      console.log('Usunięto ogłoszenie z bazy danych');
       res.status(200).json(result);
     });
   });
@@ -198,6 +225,19 @@ app.get('/uslugi', (req, res) => {
         return;
       }
       res.status(201).json({ id: result.insertId, tytul, opis, email });
+    });
+  });
+
+  app.get('/contacts', (req, res) => {
+    const sql = 'SELECT * FROM contacts';
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error('Błąd podczas pobierania ogłoszeń', err);
+        res.status(500).json('Błąd');
+        return;
+      }
+      console.log('Pobrano ogłoszenia z bazy danych');
+      res.status(200).json(result);
     });
   });
   

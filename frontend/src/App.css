@@ -105,3 +105,15 @@
   background-position: center center;
   overflow-y: hidden; /* Ukryj pionowy pasek przewijania */
 }
+
+.contact-panel{
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-position: center;
+overflow-y: hidden;
+display: flex; /* Use display: flex to center vertically */
+flex-direction: column;
+align-items: center; /* Center horizontally */
+justify-content: center; /* Center vertically */ /* Set the width to 50% of the parent container or viewport width */
+}
