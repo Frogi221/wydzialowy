@@ -217,8 +217,9 @@ app.get('/uslugi', (req, res) => {
 
   app.post("/contacts", (req, res) => {
     const { tytul, opis, email } = req.body;
-    const query = "INSERT INTO contacts (tytul, opis, email) VALUES (?, ?, ?)";
-    db.query(query, [tytul, opis, email], (err, result) => {
+    const query = "INSERT INTO contacts (tytul, opis, email, name) VALUES (?, ?, ?, ?)";
+    db.query(query, [tytul, opis, email, req.body.userName], (err, result) => {
+    
       if (err) {
         console.error("Błąd podczas dodawania kontaktu", err);
         res.status(500).json({ error: "Błąd podczas dodawania kontaktu" });
