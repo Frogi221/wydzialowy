@@ -175,7 +175,32 @@ app.get('/uslugi', (req, res) => {
       res.status(200).json(result);
     });
   });
+  app.get('/ogloszenia', (req, res) => {
+    const sql = 'SELECT * FROM ogloszenia';
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error('Błąd podczas pobierania usług', err);
+        res.status(500).json('Błąd');
+        return;
+      }
+      console.log('Pobrano usługi z bazy danych');
+      res.status(200).json(result);
+    });
+  });
 
+  app.post("/contacts", (req, res) => {
+    const { tytul, opis, email } = req.body;
+    const query = "INSERT INTO contacts (tytul, opis, email) VALUES (?, ?, ?)";
+    db.query(query, [tytul, opis, email], (err, result) => {
+      if (err) {
+        console.error("Błąd podczas dodawania kontaktu", err);
+        res.status(500).json({ error: "Błąd podczas dodawania kontaktu" });
+        return;
+      }
+      res.status(201).json({ id: result.insertId, tytul, opis, email });
+    });
+  });
+  
   app.listen(8081, () => {
     console.log("listening")
   });
