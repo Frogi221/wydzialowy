@@ -5,10 +5,13 @@ import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Contact = () => {
-  const [tytul, setTytul] = useState("");
-  const [opis, setOpis] = useState("");
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    tytul: "",
+    opis: "",
+    email: "",
+  });
   const [userName, setUserName] = useState("");
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => {
     // Pobierz nazwę z ciasteczka po załadowaniu komponentu
@@ -21,19 +24,40 @@ const Contact = () => {
     }
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validateEmail = (input) => {
+    // Proste wyrażenie regularne do sprawdzania poprawności adresu e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(input);
+  };
+
   const handleAddContact = async () => {
+    // Sprawdź poprawność adresu e-mail przed wysłaniem żądania
+    if (!validateEmail(formData.email) || !formData.tytul || !formData.opis) {
+      setFormError("Wszystkie pola muszą być wypełnione poprawnie");
+      return;
+    }
+
     try {
       await axios.post("http://localhost:8081/contacts", {
-        tytul: tytul,
-        opis: opis,
-        email: email,
-        userName: userName, // Dodaj nazwę użytkownika do ciała żądania
+        ...formData,
+        userName: userName,
       });
 
       // Wyczyść pola formularza po dodaniu kontaktu
-      setTytul("");
-      setOpis("");
-      setEmail("");
+      setFormData({
+        tytul: "",
+        opis: "",
+        email: "",
+      });
+      setFormError(null); // Wyzeruj błąd po pomyślnym dodaniu
     } catch (error) {
       console.error("Błąd podczas dodawania kontaktu", error);
     }
@@ -49,21 +73,25 @@ const Contact = () => {
           <p>Zalogowany jako: {userName}</p>
           <input
             type="text"
+            name="tytul"
             placeholder="Tytuł"
-            value={tytul}
-            onChange={(e) => setTytul(e.target.value)}
+            value={formData.tytul}
+            onChange={handleInputChange}
           />
           <textarea
+            name="opis"
             placeholder="Opis"
-            value={opis}
-            onChange={(e) => setOpis(e.target.value)}
+            value={formData.opis}
+            onChange={handleInputChange}
           />
           <input
             type="email"
+            name="email"
             placeholder="Adres email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleInputChange}
           />
+          {formError && <p style={{ color: "red" }}>{formError}</p>}
           <button onClick={handleAddContact}>Wyślij</button>
         </div>
       </div>
