@@ -2,19 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Navi() {
-  // Sprawdzamy, czy ciasteczko "user" istnieje
   const userName = document.cookie
     .split('; ')
     .find(row => row.startsWith('user='))
     ?.split('=')[1];
 
-  const handleLogout = () => {
-    // Usuwamy ciasteczka "user" i "token"
-    document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  // Pobierz wartość ciasteczka "typ_konta"
+  const userRole = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('typ_konta='))
+    ?.split('=')[1];
 
-    // Przeładowujemy stronę, aby zastosować zmiany
-    window.location.reload();
+    const handleLogout = () => {
+      document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'typ_konta=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Dodaj tę linię
+      window.location.reload();
   };
 
   return (
@@ -34,6 +37,12 @@ function Navi() {
           <li className="nav-item">
             <Link to="/contact" className="nav-link">Kontakt</Link>
           </li>
+          {/* Warunkowe renderowanie zakładki "Panel Admina" */}
+          {userRole === 'admin' && (
+            <li className="nav-item">
+              <Link to="/adminpanel" className="nav-link">Panel Admina</Link>
+            </li>
+          )}
         </ul>
       </div>
       <div className="nav-link">

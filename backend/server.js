@@ -44,26 +44,33 @@ app.post('/signup', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) =>{
+
+app.post('/login', (req, res) => {
   const sql = `SELECT * FROM login where email = ?`;
   db.query(sql, [req.body.email], (err, data) => {
-      if(err) return res.json({Error: "Login error in server"});
-      if(data.length > 0) {
-          bcrypt.hash(req.body.password.toString(), data[0].password, (err, response) => {
-              if(err) return res.json({Error: "Password compare error"});
-              if(response) {
-                  const name = data[0].name
-                  const token = jwt.sign({name}, "jwt-secret-key", {expiresIn: '1d'});
-                  res.cookie('token', token);
-                  res.cookie('user', name);
-                  return res.json("Success");
-              } else {
-                  return res.json({Error: "Password not matched"});
-              }
-          })
-      } else {
-          return res.json({Error: "No email existed"});
-      }
+    if (err) return res.json({ Error: "Login error in server" });
+
+    if (data.length > 0) {
+      bcrypt.compare(req.body.password, data[0].password, (err, result) => {
+        if (err) return res.json({ Error: "Password compare error" });
+
+        if (result) {
+          const { name, typ_konta } = data[0];
+          const token = jwt.sign({ name, typ_konta }, "jwt-secret-key", { expiresIn: '1d' });
+
+          // Ustawienie plików cookie z informacjami o użytkowniku
+          res.cookie('token', token, { httpOnly: true, sameSite: 'strict' });
+          res.cookie('user', name, { sameSite: 'strict' });
+          res.cookie('typ_konta', typ_konta, { sameSite: 'strict' });
+
+          return res.json("Success");
+        } else {
+          return res.json({ Error: "Password not matched" });
+        }
+      });
+    } else {
+      return res.json({ Error: "No email existed" });
+    }
   });
 });
 

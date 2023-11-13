@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Navigate } from 'react-router-dom';
 import Navi from "./Navi";
 import "./App.css"; 
-
 
 const AdminPanel = () => {
   const [uslugi, setUslugi] = useState([]);
@@ -18,8 +18,6 @@ const AdminPanel = () => {
   const [tytulContacts, setTytulContacts] = useState("");
   const [opisContacts, setOpisContacts] = useState("");
   const [emailContacts, setEmailContacts] = useState("");
-  
-
 
   useEffect(() => {
     fetchUslugi();
@@ -39,12 +37,13 @@ const AdminPanel = () => {
 
   const fetchUzytkownicy = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/uzytkownicy")
+      const response = await axios.get("http://localhost:8081/uzytkownicy");
       setUzytkownicy(response.data);
     } catch (error) {
-      console.server("Bład podczas pobierania użytkowników");
+      console.error("Błąd podczas pobierania użytkowników", error);
     }
   };
+
   const fetchOgloszenia = async () => {
     try {
       const response = await axios.get("http://localhost:8081/ogloszenia");
@@ -53,16 +52,15 @@ const AdminPanel = () => {
       console.error("Błąd podczas pobierania ogłoszeń", error);
     }
   };
+
   const fetchContacts = async () => {
     try {
       const response = await axios.get("http://localhost:8081/contacts");
-      console.log("Response data:", response.data);
       setContacts(response.data);
     } catch (error) {
       console.error("Błąd podczas pobierania kontaktów", error);
     }
   };
-
 
   const handleDodajUsluge = async () => {
     try {
@@ -101,8 +99,8 @@ const AdminPanel = () => {
     try {
       await axios.delete(`http://localhost:8081/uzytkownicy/${id}`);
       fetchUzytkownicy();
-    } catch(error) {
-      console.error("Blad podczas usuwania uzytkownika")
+    } catch (error) {
+      console.error("Blad podczas usuwania uzytkownika", error);
     }
   };
 
@@ -114,22 +112,35 @@ const AdminPanel = () => {
       });
       fetchOgloszenia();
     } catch (error) {
-      console.error("Błąd podczas dodawania ogłoszenia.", error);
+      console.error("Błąd podczas dodawania ogłoszenia", error);
     }
   };
+
   const handleUsunOgloszenie = async (id) => {
     try {
       await axios.delete(`http://localhost:8081/ogloszenia/${id}`);
       fetchOgloszenia();
-    } catch(error) {
-      console.error("Blad podczas usuwania ogloszenia")
+    } catch (error) {
+      console.error("Blad podczas usuwania ogloszenia", error);
     }
   };
+
+  // Sprawdzamy, czy ciasteczko "typ_konta" istnieje
+  const userRole = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('typ_konta='))
+    ?.split('=')[1];
+
+  // Jeżeli typ_konta nie istnieje lub nie ma wartości "admin", przekieruj użytkownika
+  if (!userRole || userRole !== "admin") {
+    return <Navigate to="/" />; // Możesz zmienić ścieżkę przekierowania
+  }
+
   return (
     <div className="background-image justify-content-center align-items-center">
-    <Navi />
-    <div className="admin-panel">
-      <h1 className="panel-title">Panel Administratora</h1>
+      <Navi />
+      <div className="admin-panel">
+        <h1 className="panel-title">Panel Administratora</h1>
       <div className="add-service-container">
         <h3>Dodaj nową usługę</h3>
         <input

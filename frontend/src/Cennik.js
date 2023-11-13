@@ -7,25 +7,37 @@ import "jspdf-autotable";
 
 function Cennik() {
   const [uslugi, setUslugi] = useState([]);
+  const [userRole, setUserRole] = useState(""); // Nowy stan przechowujący rolę użytkownika
 
   useEffect(() => {
     axios.get("http://localhost:8081/uslugi").then((response) => {
       setUslugi(response.data);
     });
+
+    // Pobierz wartość ciasteczka "typ_konta"
+    const userRoleFromCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("typ_konta="))
+      ?.split("=")[1];
+    
+    setUserRole(userRoleFromCookie); // Ustaw rolę użytkownika
   }, []);
 
   const handleExportToPDF = () => {
     const pdf = new jsPDF();
-  
+
     // Ustaw polską czcionkę
     pdf.setFont("times", "normal"); // Możesz również spróbować "helvetica"
-  
+
     // Ustawienia dla nagłówka tabeli
     const headers = [["Nazwa uslugi", "Cena (zl)"]];
-  
+
     // Konwersja danych o usługach na tablicę do wydrukowania
-    const data = uslugi.map((usluga) => [usluga.nazwauslugi, usluga.cenauslugi]);
-  
+    const data = uslugi.map((usluga) => [
+      usluga.nazwauslugi,
+      usluga.cenauslugi,
+    ]);
+
     // Dodaj tabelę do dokumentu PDF
     pdf.autoTable({
       head: headers,
@@ -37,7 +49,7 @@ function Cennik() {
       margin: { top: 20 },
       styles: { font: "times", fontStyle: "normal" },
     });
-  
+
     // Zapisz plik PDF
     pdf.save("cennik.pdf");
   };
@@ -60,7 +72,10 @@ function Cennik() {
             </li>
           ))}
         </ul>
-        <button onClick={handleExportToPDF}>Eksportuj do PDF</button>
+        {/* Warunkowe renderowanie przycisku na podstawie roli użytkownika */}
+        {userRole === "admin" && (
+          <button onClick={handleExportToPDF}>Eksportuj do PDF</button>
+        )}
       </div>
     </div>
   );

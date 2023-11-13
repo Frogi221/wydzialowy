@@ -14,6 +14,7 @@
   flex-direction: column;
   align-items: center; /* Center horizontally */
   justify-content: center; /* Center vertically */ /* Set the width to 50% of the parent container or viewport width */
+  overflow: auto;
 }
 
 
