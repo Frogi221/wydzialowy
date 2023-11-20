@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 13, 2023 at 08:09 AM
+-- Generation Time: Lis 20, 2023 at 02:53 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -32,15 +32,18 @@ CREATE TABLE `contacts` (
   `tytul` varchar(1000) NOT NULL,
   `opis` varchar(10000) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `name` varchar(2000) NOT NULL
+  `name` varchar(2000) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contacts`
 --
 
-INSERT INTO `contacts` (`id`, `tytul`, `opis`, `email`, `name`) VALUES
-(8, 'ss', 'ss', 'a@a.pl', 'Frogi221');
+INSERT INTO `contacts` (`id`, `tytul`, `opis`, `email`, `name`, `user_id`) VALUES
+(8, 'ss', 'ss', 'a@a.pl', 'Frogi221', NULL),
+(9, 'Siemanko', 'Testowy opis', 'dupa@dupa.pl', 'Frogi221', NULL),
+(10, 'Tytul', 'Kkkk', 'artur517518@gmail.com', 'Pawel', NULL);
 
 -- --------------------------------------------------------
 
@@ -61,7 +64,8 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id`, `name`, `email`, `password`, `typ_konta`) VALUES
-(2, 'Frogi221', 'artur517518@gmail.com', '$2b$10$plGNfHtP2I29QgChojpdVOzBWKi2Jf9JAvk/wFTw0iUXyFe2PbBkm', 'user');
+(2, 'Frogi221', 'artur517518@gmail.com', '$2b$10$plGNfHtP2I29QgChojpdVOzBWKi2Jf9JAvk/wFTw0iUXyFe2PbBkm', 'admin'),
+(4, 'Pawel', 'pawel@pawel.pl', '$2b$10$zpyJFWXbvlGS6m0nmH1rUuQd7iTM5b1ur2DCGePpOeQTXA9RiWl.S', 'user');
 
 -- --------------------------------------------------------
 
@@ -72,16 +76,17 @@ INSERT INTO `login` (`id`, `name`, `email`, `password`, `typ_konta`) VALUES
 CREATE TABLE `ogloszenia` (
   `id` int(11) NOT NULL,
   `tytul` varchar(1000) NOT NULL,
-  `opis` varchar(1000) NOT NULL
+  `opis` varchar(1000) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ogloszenia`
 --
 
-INSERT INTO `ogloszenia` (`id`, `tytul`, `opis`) VALUES
-(1, '[Przerwa techniczna]', '[W dniu 06.11.2023 Serwis jest nieczynny!]'),
-(4, 'Testowa nazwa ogłoszenia', 'Testowy tekst ogłoszenia');
+INSERT INTO `ogloszenia` (`id`, `tytul`, `opis`, `user_id`) VALUES
+(1, '[Przerwa techniczna]', '[W dniu 06.11.2023 Serwis jest nieczynny!]', NULL),
+(4, 'Testowa nazwa ogłoszenia', 'Testowy tekst ogłoszenia', NULL);
 
 -- --------------------------------------------------------
 
@@ -92,16 +97,16 @@ INSERT INTO `ogloszenia` (`id`, `tytul`, `opis`) VALUES
 CREATE TABLE `uslugi` (
   `id` int(255) NOT NULL,
   `nazwauslugi` varchar(255) NOT NULL,
-  `cenauslugi` varchar(255) NOT NULL
+  `cenauslugi` varchar(255) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `uslugi`
 --
 
-INSERT INTO `uslugi` (`id`, `nazwauslugi`, `cenauslugi`) VALUES
-(8, 'Wymiana Koła', '50'),
-(9, 'Remont silnika', '1000');
+INSERT INTO `uslugi` (`id`, `nazwauslugi`, `cenauslugi`, `user_id`) VALUES
+(9, 'Remont silnika', '1000', NULL);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -111,7 +116,8 @@ INSERT INTO `uslugi` (`id`, `nazwauslugi`, `cenauslugi`) VALUES
 -- Indeksy dla tabeli `contacts`
 --
 ALTER TABLE `contacts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksy dla tabeli `login`
@@ -123,13 +129,15 @@ ALTER TABLE `login`
 -- Indeksy dla tabeli `ogloszenia`
 --
 ALTER TABLE `ogloszenia`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksy dla tabeli `uslugi`
 --
 ALTER TABLE `uslugi`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -139,13 +147,13 @@ ALTER TABLE `uslugi`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ogloszenia`
@@ -158,6 +166,28 @@ ALTER TABLE `ogloszenia`
 --
 ALTER TABLE `uslugi`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `login` (`id`);
+
+--
+-- Constraints for table `ogloszenia`
+--
+ALTER TABLE `ogloszenia`
+  ADD CONSTRAINT `ogloszenia_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `login` (`id`);
+
+--
+-- Constraints for table `uslugi`
+--
+ALTER TABLE `uslugi`
+  ADD CONSTRAINT `uslugi_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `login` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
