@@ -13,16 +13,16 @@ function Navi() {
     .find(row => row.startsWith('typ_konta='))
     ?.split('=')[1];
 
-    const handleLogout = () => {
-      document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = 'typ_konta=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Dodaj tę linię
-      window.location.reload();
+  const handleLogout = () => {
+    document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'typ_konta=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Dodaj tę linię
+    window.location.href = '/Glowna'; // Przekieruj użytkownika na stronę główną
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
-      <a className="navbar-brand mx-2" href="/Glowna">MotoSerwis</a>
+      <Link className="navbar-brand mx-2" to="/Glowna">MotoSerwis</Link>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -31,12 +31,11 @@ function Navi() {
           <li className="nav-item">
             <Link to="/cennik" className="nav-link">Cennik</Link>
           </li>
-          <li className="nav-item">
-            <Link to="/about" className="nav-link">O nas</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/contact" className="nav-link">Kontakt</Link>
-          </li>
+          {(userRole === 'user' || userRole === 'admin') && (
+            <li className="nav-item">
+              <Link to="/contact" className="nav-link">Kontakt</Link>
+            </li>
+          )}
           {/* Warunkowe renderowanie zakładki "Panel Admina" */}
           {userRole === 'admin' && (
             <li className="nav-item">

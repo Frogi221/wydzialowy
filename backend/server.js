@@ -55,13 +55,14 @@ app.post('/login', (req, res) => {
         if (err) return res.json({ Error: "Password compare error" });
 
         if (result) {
-          const { name, typ_konta } = data[0];
+          const { name, typ_konta, email } = data[0];
           const token = jwt.sign({ name, typ_konta }, "jwt-secret-key", { expiresIn: '1d' });
 
           // Ustawienie plików cookie z informacjami o użytkowniku
           res.cookie('token', token, { httpOnly: true, sameSite: 'strict' });
           res.cookie('user', name, { sameSite: 'strict' });
           res.cookie('typ_konta', typ_konta, { sameSite: 'strict' });
+          res.cookie('email', email, { sameSite: 'strict' });
 
           return res.json("Success");
         } else {
@@ -73,6 +74,7 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
 
 app.get('/uslugi', (req, res) => {
     const sql = 'SELECT * FROM uslugi';

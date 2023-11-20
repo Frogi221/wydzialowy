@@ -22,6 +22,18 @@ const Contact = () => {
     if (storedUserName) {
       setUserName(storedUserName);
     }
+
+    // Pobierz adres email z ciasteczka i ustaw go w stanie
+    const storedEmail = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('email='))
+      ?.split('=')[1];
+    if (storedEmail) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        email: storedEmail,
+      }));
+    }
   }, []);
 
   const handleInputChange = (e) => {

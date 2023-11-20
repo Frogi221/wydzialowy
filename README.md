@@ -1,1 +1,1 @@
-"# wydzialowy" 
+Strona internetowa, której głównym celem jest wspomaganie pracy serwisu motocyklowego. Strona jest głównie skierowana, dla osób, które chcą bez odwiedzenia serwisu stacjonarnie, pozyskać informacje na temat cennika danych usług, możliwości kontaktu z właścicielem, czy też zapoznaniem się z ogłoszeniami. Głównym celem projektu była interakcja klienta z właścicielem serwisu.
